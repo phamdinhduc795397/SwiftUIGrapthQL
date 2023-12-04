@@ -1,0 +1,32 @@
+{
+  "pins" : [
+    {
+      "identity" : "apollo-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apollographql/apollo-ios.git",
+      "state" : {
+        "revision" : "7e28eb75e9970edaba346a3c1eab1f8fc479a04d",
+        "version" : "1.7.1"
+      }
+    },
+    {
+      "identity" : "combineext",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CombineCommunity/CombineExt",
+      "state" : {
+        "revision" : "d7b896fa9ca8b47fa7bcde6b43ef9b70bf8c1f56",
+        "version" : "1.8.1"
+      }
+    },
+    {
+      "identity" : "sqlite.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/stephencelis/SQLite.swift.git",
+      "state" : {
+        "revision" : "7a2e3cd27de56f6d396e84f63beefd0267b55ccb",
+        "version" : "0.14.1"
+      }
+    }
+  ],
+  "version" : 2
+}
