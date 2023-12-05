@@ -23,18 +23,41 @@ struct HomeView: View {
     func contentView() -> some View {
         switch viewModel.state {
         case .success(let films):
-            List {
-                ForEach(films, id: \.title) { item in
-                    NavigationLink(destination: DetailView(film: item), label: {
-                        FilmItem(data: item)
-                    })
-                }
-            }
-            .listStyle(.plain)
-        case .error:
-            Text("Something went wrong!")
+            listView(films)
+        case .error(let message):
+            errorView(message)
         case .loading:
             ProgressView()
+        }
+    }
+    
+    @ViewBuilder
+    func listView(_ films: [FilmModel]) -> some View {
+        List {
+            ForEach(films, id: \.title) { item in
+                NavigationLink(destination: DetailView(film: item), label: {
+                    FilmItem(data: item)
+                })
+            }
+        }
+        .listStyle(.plain)
+    }
+    
+    @ViewBuilder
+    func errorView(_ message: String) -> some View {
+        VStack {
+            Text(message)
+                .padding()
+            Button {
+                viewModel.retry()
+            } label: {
+                Text("Retry")
+                    .foregroundColor(.white)
+                    .bold()
+            }
+            .padding()
+            .background(Color.red)
+            .clipShape(RoundedRectangle(cornerRadius: 4))
         }
     }
 }

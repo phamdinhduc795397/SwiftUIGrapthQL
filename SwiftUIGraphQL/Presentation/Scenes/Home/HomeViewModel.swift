@@ -11,7 +11,7 @@ import CombineExt
 import StarWarsAPI
 
 enum ViewState<T> {
-    case success(T), error, loading
+    case success(T), error(String), loading
 }
 
 class HomeViewModel: ObservableObject {
@@ -34,7 +34,6 @@ class HomeViewModel: ObservableObject {
     
     private func initData() {
         let fetchingFilms = fetchDataStream
-            .prefix(1)
             .withUnretained(self)
             .flatMap { base, _ in
                 base.fetchAllFilms()
@@ -58,7 +57,17 @@ class HomeViewModel: ObservableObject {
             .store(in: &cancellables)
         
         errorTracker
-            .map { _ in ViewState.error }
+            .withUnretained(self)
+            .map { base, error in
+                base.handleError(error)
+            }
+            .map { message in ViewState.error(message) }
+            .assign(to: \.state, on: self, ownership: .weak)
+            .store(in: &cancellables)
+        
+        activityTracker
+            .filter { $0 }
+            .map {  _ in ViewState.loading }
             .assign(to: \.state, on: self, ownership: .weak)
             .store(in: &cancellables)
     }
@@ -67,13 +76,28 @@ class HomeViewModel: ObservableObject {
         apiService.fetchAllFilms()
             .trackError(errorTracker)
             .trackActivity(activityTracker)
-            .replaceError(with: [])
+            .ignoreFailure()
             .eraseToAnyPublisher()
     }
+    
+    private func handleError(_ error: Error) -> String {
+        guard let error = error as? APIError else {
+            return error.localizedDescription
+        }
+        switch error {
+        case .failed(let errors):
+            return errors.first?.localizedDescription ?? ""
+        }
+    }
+
 }
 
 extension HomeViewModel {
     func fetchData() {
+        fetchDataStream.accept()
+    }
+    
+    func retry() {
         fetchDataStream.accept()
     }
 }
