@@ -12,17 +12,30 @@ struct HomeView: View {
     
     var body: some View {
         NavigationView {
+            contentView()
+        }
+        .navigationTitle("Star War")
+        .onAppear(perform: viewModel.fetchData)
+        .searchable(text: $viewModel.searchText)
+    }
+    
+    @ViewBuilder
+    func contentView() -> some View {
+        switch viewModel.state {
+        case .success(let films):
             List {
-                ForEach(viewModel.allFilms, id: \.title) { item in
+                ForEach(films, id: \.title) { item in
                     NavigationLink(destination: DetailView(film: item), label: {
                         FilmItem(data: item)
                     })
                 }
             }
             .listStyle(.plain)
+        case .error:
+            Text("Something went wrong!")
+        case .loading:
+            ProgressView()
         }
-        .onAppear(perform: viewModel.fetchData)
-        .searchable(text: $viewModel.searchText)
     }
 }
 
