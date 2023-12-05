@@ -15,16 +15,13 @@ enum ViewState<T> {
 }
 
 class HomeViewModel: ObservableObject {
-    let apiService: APIService = APIManager()
+    private let apiService: APIService = APIManager()
     private var cancellables = Set<AnyCancellable>()
     private let fetchDataStream = PassthroughRelay<Void>()
     
-    
     private let errorTracker = ErrorTracker()
     private let activityTracker = ActivityTracker(false)
-    
     @Published var searchText = ""
-    @Published var isLoading = ""
     
     @Published var state: ViewState<[FilmModel]> = .loading
 
@@ -33,6 +30,7 @@ class HomeViewModel: ObservableObject {
     }
     
     private func initData() {
+        // Fetching data
         let fetchingFilms = fetchDataStream
             .withUnretained(self)
             .flatMap { base, _ in
@@ -56,6 +54,7 @@ class HomeViewModel: ObservableObject {
             .assign(to: \.state, on: self, ownership: .weak)
             .store(in: &cancellables)
         
+        // Handle error
         errorTracker
             .withUnretained(self)
             .map { base, error in
@@ -65,6 +64,7 @@ class HomeViewModel: ObservableObject {
             .assign(to: \.state, on: self, ownership: .weak)
             .store(in: &cancellables)
         
+        // Handle activity
         activityTracker
             .filter { $0 }
             .map {  _ in ViewState.loading }
@@ -89,7 +89,6 @@ class HomeViewModel: ObservableObject {
             return errors.first?.localizedDescription ?? ""
         }
     }
-
 }
 
 extension HomeViewModel {
