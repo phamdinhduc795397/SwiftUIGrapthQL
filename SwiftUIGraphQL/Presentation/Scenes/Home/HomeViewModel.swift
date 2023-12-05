@@ -10,26 +10,36 @@ import Combine
 import CombineExt
 import StarWarsAPI
 
+enum ViewState<T> {
+    case success(T), error, loading
+}
+
 class HomeViewModel: ObservableObject {
     let apiService: APIService = APIManager()
-    private var cancellable = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>()
     private let fetchDataStream = PassthroughRelay<Void>()
     
-    @Published var allFilms: [FilmModel] = []
-    @Published var searchText = ""
     
+    private let errorTracker = ErrorTracker()
+    private let activityTracker = ActivityTracker(false)
+    
+    @Published var searchText = ""
+    @Published var isLoading = ""
+    
+    @Published var state: ViewState<[FilmModel]> = .loading
+
     init() {
         initData()
     }
     
     private func initData() {
         let fetchingFilms = fetchDataStream
-            .flatMap { [unowned self] in
-                apiService.fetchAllFilms()
+            .prefix(1)
+            .withUnretained(self)
+            .flatMap { base, _ in
+                base.fetchAllFilms()
             }
-            .replaceError(with: [])
             .share()
-        
         
         let searchFilms = $searchText
             .withLatestFrom(fetchingFilms) { text, films in
@@ -43,8 +53,22 @@ class HomeViewModel: ObservableObject {
         
         let allFilms = Publishers.Merge(fetchingFilms, searchFilms)
         allFilms
-            .assign(to: \.allFilms, on: self, ownership: .weak)
-            .store(in: &cancellable)
+            .map { ViewState.success($0) }
+            .assign(to: \.state, on: self, ownership: .weak)
+            .store(in: &cancellables)
+        
+        errorTracker
+            .map { _ in ViewState.error }
+            .assign(to: \.state, on: self, ownership: .weak)
+            .store(in: &cancellables)
+    }
+    
+    private func fetchAllFilms() -> AnyPublisher<[FilmModel], Never> {
+        apiService.fetchAllFilms()
+            .trackError(errorTracker)
+            .trackActivity(activityTracker)
+            .replaceError(with: [])
+            .eraseToAnyPublisher()
     }
 }
 
