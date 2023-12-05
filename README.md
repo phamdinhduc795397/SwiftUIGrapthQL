@@ -2,7 +2,7 @@
 
 ## Features
 + Fetch List of Star Wars Films
-+ Display detaits
++ Display details
 + Search Functionality
 
 ## Requirements
