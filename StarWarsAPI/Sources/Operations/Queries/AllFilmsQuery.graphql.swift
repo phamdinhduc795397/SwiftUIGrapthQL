@@ -7,7 +7,7 @@ public class AllFilmsQuery: GraphQLQuery {
   public static let operationName: String = "AllFilms"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query AllFilms { allFilms { __typename films { __typename title director releaseDate episodeID openingCrawl characterConnection { __typename characters { __typename name birthYear } } } } }"#
+      #"query AllFilms { allFilms { __typename films { __typename title episodeID director releaseDate openingCrawl characterConnection { __typename characters { __typename name } } } } }"#
     ))
 
   public init() {}
@@ -55,21 +55,21 @@ public class AllFilmsQuery: GraphQLQuery {
         public static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
           .field("title", String?.self),
+          .field("episodeID", Int?.self),
           .field("director", String?.self),
           .field("releaseDate", String?.self),
-          .field("episodeID", Int?.self),
           .field("openingCrawl", String?.self),
           .field("characterConnection", CharacterConnection?.self),
         ] }
 
         /// The title of this film.
         public var title: String? { __data["title"] }
+        /// The episode number of this film.
+        public var episodeID: Int? { __data["episodeID"] }
         /// The name of the director of this film.
         public var director: String? { __data["director"] }
         /// The ISO 8601 date format of film release at original creator country.
         public var releaseDate: String? { __data["releaseDate"] }
-        /// The episode number of this film.
-        public var episodeID: Int? { __data["episodeID"] }
         /// The opening paragraphs at the beginning of this film.
         public var openingCrawl: String? { __data["openingCrawl"] }
         public var characterConnection: CharacterConnection? { __data["characterConnection"] }
@@ -106,15 +106,10 @@ public class AllFilmsQuery: GraphQLQuery {
             public static var __selections: [ApolloAPI.Selection] { [
               .field("__typename", String.self),
               .field("name", String?.self),
-              .field("birthYear", String?.self),
             ] }
 
             /// The name of this person.
             public var name: String? { __data["name"] }
-            /// The birth year of the person, using the in-universe standard of BBY or ABY -
-            /// Before the Battle of Yavin or After the Battle of Yavin. The Battle of Yavin is
-            /// a battle that occurs at the end of Star Wars episode IV: A New Hope.
-            public var birthYear: String? { __data["birthYear"] }
           }
         }
       }

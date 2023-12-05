@@ -15,7 +15,7 @@ class HomeViewModel: ObservableObject {
     private var cancellable = Set<AnyCancellable>()
     private let fetchDataStream = PassthroughRelay<Void>()
     
-    @Published var allFilms: [StarWarModel] = []
+    @Published var allFilms: [FilmModel] = []
     @Published var searchText = ""
     
     init() {
@@ -27,9 +27,6 @@ class HomeViewModel: ObservableObject {
             .flatMap { [unowned self] in
                 apiService.fetchAllFilms()
             }
-            .compactMap { data in
-                data.allFilms?.films?.compactMap { $0 }
-            }
             .replaceError(with: [])
             .share()
         
@@ -40,37 +37,14 @@ class HomeViewModel: ObservableObject {
                     return films
                 }
                 return films.filter { film in
-                    film.title?.contains(text) == true
+                    film.title.contains(text) == true
                 }
             }
         
-        
         let allFilms = Publishers.Merge(fetchingFilms, searchFilms)
-            .map { [unowned self] films in
-                mapData(films)
-            }
         allFilms
             .assign(to: \.allFilms, on: self, ownership: .weak)
             .store(in: &cancellable)
-    }
-    
-    
-    private func mapData(_ films: [AllFilmsQuery.Data.AllFilms.Film]) -> [StarWarModel] {
-        let items = films.map { film in
-            let characters = film
-                .characterConnection?
-                .characters?
-                .compactMap { $0 }.map { character in
-                    CharacterModel(name: character?.name ?? "",
-                                   birthday: character?.birthYear ?? "")
-                }
-            return  StarWarModel(title: film.title ?? "",
-                                 releaseDate:  film.releaseDate ?? "",
-                                 openingCrawl: film.openingCrawl ?? "",
-                                 episodeID: film.episodeID,
-                                 characters: characters)
-        }
-        return items
     }
 }
 

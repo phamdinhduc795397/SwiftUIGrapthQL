@@ -6,8 +6,12 @@
 //
 
 import Foundation
+import StarWarsAPI
 
 struct CharacterModel {
     let name: String
-    let birthday: String
+    
+    init(data: AllFilmsQuery.Data.AllFilms.Film.CharacterConnection.Character) {
+        self.name = data.name ?? ""
+    }
 }
