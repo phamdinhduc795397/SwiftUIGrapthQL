@@ -9,13 +9,16 @@ import Foundation
 import Combine
 import CombineExt
 import StarWarsAPI
+import Factory
 
 enum ViewState<T> {
     case success(T), error(String), loading
 }
 
 class HomeViewModel: ObservableObject {
-    private let apiService: APIService = APIManager()
+    @Injected(\.apiService)
+    private var apiService
+    
     private var cancellables = Set<AnyCancellable>()
     private let fetchDataStream = PassthroughRelay<Void>()
     
