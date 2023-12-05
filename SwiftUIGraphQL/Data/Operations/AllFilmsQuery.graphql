@@ -2,14 +2,13 @@ query AllFilms {
   allFilms {
     films {
       title
+      episodeID
       director
       releaseDate
-      episodeID
       openingCrawl
       characterConnection {
         characters {
           name
-          birthYear
         }
       }
     }

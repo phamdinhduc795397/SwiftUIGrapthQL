@@ -8,13 +8,33 @@
 import SwiftUI
 
 struct DetailView: View {
+    let film: FilmModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading) {
+            Text(film.title)
+                .bold()
+            if let episodeID = film.episodeID {
+                Text("\(episodeID)")
+                    .bold()
+            }
+            Text(film.openingCrawl)
+            characterList(film.characters)
+            Spacer()
+        }
     }
-}
-
-struct DetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        DetailView()
+    
+    @ViewBuilder
+    func characterList(_ characters: [CharacterModel]) -> some View {
+        VStack(alignment: .leading) {
+            Text("Characters: ").bold()
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(characters, id: \.name) { item in
+                        Text(item.name)
+                    }
+                }
+            }
+        }
     }
 }

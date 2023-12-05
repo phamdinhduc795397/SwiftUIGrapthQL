@@ -21,9 +21,9 @@
 		7D8A92702B1E235300379CBC /* StarWarsAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 7D8A926F2B1E235300379CBC /* StarWarsAPI */; };
 		7D8A92742B1E268500379CBC /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8A92732B1E268500379CBC /* HomeViewModel.swift */; };
 		7D8A92772B1E271200379CBC /* CombineExt in Frameworks */ = {isa = PBXBuildFile; productRef = 7D8A92762B1E271200379CBC /* CombineExt */; };
-		7D8A927A2B1E2A4700379CBC /* StarWarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8A92792B1E2A4700379CBC /* StarWarItem.swift */; };
+		7D8A927A2B1E2A4700379CBC /* FilmItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8A92792B1E2A4700379CBC /* FilmItem.swift */; };
 		7D8A927E2B1E2E4300379CBC /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8A927D2B1E2E4300379CBC /* DetailView.swift */; };
-		7D8A92812B1E30F400379CBC /* StarWarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8A92802B1E30F400379CBC /* StarWarModel.swift */; };
+		7D8A92812B1E30F400379CBC /* FilmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8A92802B1E30F400379CBC /* FilmModel.swift */; };
 		7D8A92832B1E315A00379CBC /* CharacterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8A92822B1E315A00379CBC /* CharacterModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,9 +59,9 @@
 		7D8A92652B1E14F000379CBC /* AllFilmsQuery.graphql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AllFilmsQuery.graphql; sourceTree = "<group>"; };
 		7D8A926C2B1E223E00379CBC /* StarWarsAPI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = StarWarsAPI; sourceTree = "<group>"; };
 		7D8A92732B1E268500379CBC /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
-		7D8A92792B1E2A4700379CBC /* StarWarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarWarItem.swift; sourceTree = "<group>"; };
+		7D8A92792B1E2A4700379CBC /* FilmItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmItem.swift; sourceTree = "<group>"; };
 		7D8A927D2B1E2E4300379CBC /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
-		7D8A92802B1E30F400379CBC /* StarWarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarWarModel.swift; sourceTree = "<group>"; };
+		7D8A92802B1E30F400379CBC /* FilmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmModel.swift; sourceTree = "<group>"; };
 		7D8A92822B1E315A00379CBC /* CharacterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -207,7 +207,7 @@
 		7D8A92782B1E2A2F00379CBC /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				7D8A92792B1E2A4700379CBC /* StarWarItem.swift */,
+				7D8A92792B1E2A4700379CBC /* FilmItem.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -232,7 +232,7 @@
 		7D8A927F2B1E30E100379CBC /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				7D8A92802B1E30F400379CBC /* StarWarModel.swift */,
+				7D8A92802B1E30F400379CBC /* FilmModel.swift */,
 				7D8A92822B1E315A00379CBC /* CharacterModel.swift */,
 			);
 			path = Models;
@@ -379,10 +379,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D8A927A2B1E2A4700379CBC /* StarWarItem.swift in Sources */,
+				7D8A927A2B1E2A4700379CBC /* FilmItem.swift in Sources */,
 				7D8A927E2B1E2E4300379CBC /* DetailView.swift in Sources */,
 				7D8A925C2B1E10D500379CBC /* APIManager.swift in Sources */,
-				7D8A92812B1E30F400379CBC /* StarWarModel.swift in Sources */,
+				7D8A92812B1E30F400379CBC /* FilmModel.swift in Sources */,
 				7D8A922E2B1E0FA200379CBC /* HomeView.swift in Sources */,
 				7D8A92832B1E315A00379CBC /* CharacterModel.swift in Sources */,
 				7D8A922C2B1E0FA200379CBC /* SwiftUIGraphQLApp.swift in Sources */,

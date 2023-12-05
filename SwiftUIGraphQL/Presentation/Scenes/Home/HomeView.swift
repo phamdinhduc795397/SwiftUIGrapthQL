@@ -14,8 +14,8 @@ struct HomeView: View {
         NavigationView {
             List {
                 ForEach(viewModel.allFilms, id: \.title) { item in
-                    NavigationLink(destination: Text(item.title), label: {
-                        StarWarItem(data: item)
+                    NavigationLink(destination: DetailView(film: item), label: {
+                        FilmItem(data: item)
                     })
                 }
             }

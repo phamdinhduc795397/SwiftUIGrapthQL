@@ -15,7 +15,7 @@ enum APIError: Error {
 }
 
 protocol APIService {
-    func fetchAllFilms() -> AnyPublisher<AllFilmsQuery.Data, Error>
+    func fetchAllFilms() -> AnyPublisher<[FilmModel], Error>
 }
 
 class APIManager {
@@ -49,7 +49,16 @@ class APIManager {
 }
 
 extension APIManager: APIService {
-    func fetchAllFilms() -> AnyPublisher<AllFilmsQuery.Data, Error> {
+    func fetchAllFilms() -> AnyPublisher<[FilmModel], Error> {
         fetch(query: AllFilmsQuery())
+            .map { data in
+                guard let films = data.allFilms?.films else {
+                    return []
+                }
+                return films
+                    .compactMap { $0 }
+                    .map { FilmModel(data: $0) }
+            }
+            .eraseToAnyPublisher()
     }
 }
